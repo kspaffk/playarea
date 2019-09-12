@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function mergeSort(array) {
+                //find the array size
+                var arraySize = array.length;
+
+                //if the array size is 1; get outta dodge because and array of 1 is sorted
+                if (arraySize === 1) {
+                    return;
+                }
+
+                //if array is more than 1 let's split it up
+                //get the mid position
+                var mid = Math.floor(arraySize / 2);
+                //get the split arrays
+                var leftArray = array.slice(0, mid);
+                var rightArray = array.slice(mid);
+
+                //run recursively until we only have 2 values in each array to start with
+                mergeSort(leftArray);
+                mergeSort(rightArray);
+
+                //then run the merge to merge them in a sorted way
+                merge(leftArray, rightArray, array);
+
+                return array;
+            }
+
+            function merge(leftArray, rightArray, array) {
+                //call an index to track position in array
+                var index = 0;
+
+                //check to see if the left and right arrays are empty
+                while (leftArray.length && rightArray.length) {
+                    console.log("array is: ", array);
+                    //check to see which value at index 0 is bigger in the L/R arrays
+                    //first the right one
+                    if (rightArray[0] < leftArray[0]) {
+                        //insert the rightArray item into the original array then increment the index
+                        array[index++] = rightArray.shift();
+                    } else {
+                        //insert the leftArray item into the original array then increment the index
+                        array[index++] = leftArray.shift();
+                    }
+                }
+
+                //after the sort, if one of the arrays ends up having more values than the other run these checks
+                //left array should be sorted already from a previous recursion
+                while (leftArray.length) {
+                    console.log("leftovers left: ", leftArray);
+                    array[index++] = leftArray.shift();
+                }
+                //right array should be sorted already from a previous recursion
+                while (rightArray.length) {
+                    console.log("leftovers right: ", rightArray);
+                    array[index++] = rightArray.shift();
+                }
+            }
+
+            var numbers = [45, 13, 6, 7, 29, 107, 19, 21, 1, 22];
+
+            var newNums = mergeSort(numbers);
+
+            console.log(newNums);
+        </script>
+    </body>
+</html>
